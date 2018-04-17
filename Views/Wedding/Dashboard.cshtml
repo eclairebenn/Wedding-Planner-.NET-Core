@@ -1,0 +1,39 @@
+<h1>Welcome to the Wedding Planner!</h1>
+<h5><a href="/">Logout</a></h5>
+
+<table class="table-striped">
+    <tr>
+        <th>Wedding</th>
+        <th>Date</th>
+        <th>Guest(s)</th>
+        <th>Action</th>
+    </tr>
+@foreach(Wedding wed in @ViewBag.Weddings)
+{
+    <tr>
+        <td><a class="weddinglink" href="/wedding/@wed.WeddingId">@wed.NameOne & @wed.NameTwo</a></td>
+        <td>@wed.Date.ToString("MMM dd yyyy")</td>
+        <td>@wed.Attendees.Count()</td>
+        <td>
+        @if(@wed.UserId == @ViewBag.UserId)
+        {
+            <a href="delete/@wed.WeddingId">Delete</a>
+        }
+        else if(@wed.Attendees.Exists(a => a.UserId == @ViewBag.UserId))
+        {
+            <a href="unrsvp/@wed.WeddingId">unRSVP</a>
+        }
+        else
+        {
+            <a href="rsvp/@wed.WeddingId">RSVP</a>
+        }
+        </td>
+    </tr>
+
+}    
+</table>
+
+
+<form action="/plan" method="get">
+    <button type="submit">New Wedding</button>
+</form>
